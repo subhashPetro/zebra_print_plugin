@@ -1,4 +1,4 @@
-name: zebra_print_plugin
+name: zebra_plugin
 description: A new Flutter project.
 version: 0.0.1
 homepage:
@@ -9,6 +9,8 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_web_plugins:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
   permission_handler: ^10.2.0
@@ -36,10 +38,19 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.zebra_print_plugin
-        pluginClass: ZebraPrintPlugin
+        package: com.example.zebra_plugin
+        pluginClass: ZebraPlugin
       ios:
-        pluginClass: ZebraPrintPlugin
+        pluginClass: ZebraPlugin
+      linux:
+        pluginClass: ZebraPlugin
+      macos:
+        pluginClass: ZebraPlugin
+      windows:
+        pluginClass: ZebraPluginCApi
+      web:
+        pluginClass: ZebraPluginWeb
+        fileName: zebra_plugin_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

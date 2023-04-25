@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.zebra_print_plugin_example">
+    package="com.example.zebra_plugin_example">
    <application
-        android:label="zebra_print_plugin_example"
+        android:label="zebra_plugin_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

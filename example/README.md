@@ -1,6 +1,6 @@
-# zebra_print_plugin_example
+# zebra_plugin_example
 
-Demonstrates how to use the zebra_print_plugin plugin.
+Demonstrates how to use the zebra_plugin plugin.
 
 ## Getting Started
 
