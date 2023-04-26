@@ -37,19 +37,17 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _working = true;
       });
-      if (await _zebraPlugin.hasAllBluetoothPermission()) {
-        final devices = await _zebraPlugin.getAllPairedZQDevices();
-        //final connect = await _zebraPlugin.connectPrinter("AC:3F:A4:0E:89:95");
-        //final testLabel = await _zebraPlugin.sendTestLabel();
-        setState(() {
-          if (devices != null) {
-            _devices = devices;
-          } else {
-            _devices = [];
-          }
-        });
-        log("config label -  and  connect - $devices");
-      }
+      final devices = await _zebraPlugin.getAllPairedZQDevices();
+      //final connect = await _zebraPlugin.connectPrinter("AC:3F:A4:0E:89:95");
+      //final testLabel = await _zebraPlugin.sendTestLabel();
+      setState(() {
+        if (devices != null) {
+          _devices = devices;
+        } else {
+          _devices = [];
+        }
+      });
+      log("config label -  and  connect - $devices");
       setState(() {
         _working = false;
       });

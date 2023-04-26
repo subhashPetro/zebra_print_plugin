@@ -1,4 +1,3 @@
-import 'package:zebra_print_plugin/permission_manager.dart';
 import 'package:zebra_print_plugin/zebra_print_plugin_platform_interface.dart';
 
 class ZebraPrintPlugin {
@@ -14,9 +13,6 @@ class ZebraPrintPlugin {
       ZebraPrintPluginPlatform.instance.disconnectPrinter();
   Future<bool?> connectPrinter(String macID, String printBytes) =>
       ZebraPrintPluginPlatform.instance.connectPrinter(macID, printBytes);
-
-  Future<bool> hasAllBluetoothPermission() =>
-      BluetoothPermissionManager.checkAndRequestPermissions();
 
   Future<bool> isBluetoothOn() =>
       ZebraPrintPluginPlatform.instance.isBluetoothOn();
