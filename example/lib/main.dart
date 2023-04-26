@@ -1,11 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter/services.dart';
-import 'package:zebra_plugin/zebra_plugin.dart';
+import 'package:zebra_print_plugin/zebra_print_plugin.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _zebraPlugin = ZebraPlugin();
+  final _zebraPlugin = ZebraPrintPlugin();
 
   List<dynamic>? _devices;
   bool _working = false;
@@ -83,8 +81,11 @@ class _MyAppState extends State<MyApp> {
                                   ?.map(
                                     (e) => ListTile(
                                       onTap: () async {
-                                        final connect = await _zebraPlugin
-                                            .connectPrinter(e['deviceMacId']);
+                                        String printByte =
+                                            "~CC^~CT~^XA~TA000~JSN^LT0^MNW^MTD^PON^PMN^LH0,0^JMA^PR5,5~SD30^JUS^LRN^CI27^PA0,1,1,0^XZ^XA^MMT^PW810^LL810^LS0^FO0,0^GB810,810,4^FS^FO0,125^GB810,4,4^FS ^CF0,25^FO0,55^FB810,4,0,C,0^FDIso Number: 1M59S06-HYD-1M59003033-0001 \&^FS ^CF0,25^FO50,180^FB410,4,0,L,0^FDSpool No:SP023 ^FS ^FO355,130^GB4,250,4^FS ^CF0,25^FO425,180^FB410,4,0,L,0^FDRev: 1^FS ^FO0,250^GB821,4,4^FS ^CF0,25^FO50,300^FB410,4,0,L,0^FDMaterial : CS^FS ^CF0,25^FO425,300^FB410,4,0,L,0^FDPaint Sys:A1^FS ^FO0,380^GB821,4,4^FS ^FO305,520^BQ,2,9,^FDQA,FDLabel9^FS ^XZ";
+                                        final connect =
+                                            await _zebraPlugin.connectPrinter(
+                                                e['deviceMacId'], printByte);
                                         if (connect ?? false) {
                                         } else {
                                           // ignore: use_build_context_synchronously

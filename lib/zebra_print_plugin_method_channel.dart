@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:zebra_print_plugin/zebra_core.dart';
+import 'package:zebra_print_plugin/zebra_print_plugin_platform_interface.dart';
 
-import 'zebra_print_plugin_platform_interface.dart';
-
-/// An implementation of [ZebraPrintPluginPlatform] that uses method channels.
+/// An implementation of [ZebraPluginPlatform] that uses method channels.
 class MethodChannelZebraPrintPlugin extends ZebraPrintPluginPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
@@ -18,10 +17,11 @@ class MethodChannelZebraPrintPlugin extends ZebraPrintPluginPlatform {
   }
 
   @override
-  Future<bool?> connectPrinter(String macID) async {
+  Future<bool?> connectPrinter(String macID, String printBytes) async {
     final value = await methodChannel
         .invokeMethod<String?>(connectChannel, <String, dynamic>{
       'macID': macID,
+      'printBytes': printBytes,
     });
     return value == "true";
   }
@@ -62,9 +62,9 @@ class MethodChannelZebraPrintPlugin extends ZebraPrintPluginPlatform {
   }
 
   @override
-  Future<List<String>?> getAllPairedZQDevices() async {
+  Future<List<dynamic>?> getAllPairedZQDevices() async {
     final devices =
-        await methodChannel.invokeMethod<dynamic>(connectedDeviceChannel);
+        await methodChannel.invokeMethod<dynamic>(getAllPairedZQDevicesChannel);
     return devices;
   }
 }

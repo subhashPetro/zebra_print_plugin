@@ -1,4 +1,4 @@
-# zebra_plugin
+# zebra_print_plugin
 
 A new Flutter project.
 

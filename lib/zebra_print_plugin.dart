@@ -1,6 +1,5 @@
 import 'package:zebra_print_plugin/permission_manager.dart';
-
-import 'zebra_print_plugin_platform_interface.dart';
+import 'package:zebra_print_plugin/zebra_print_plugin_platform_interface.dart';
 
 class ZebraPrintPlugin {
   Future<String?> getPlatformVersion() {
@@ -13,8 +12,8 @@ class ZebraPrintPlugin {
       ZebraPrintPluginPlatform.instance.getConfigLabel();
   Future<bool?> disconnectPrinter() =>
       ZebraPrintPluginPlatform.instance.disconnectPrinter();
-  Future<bool?> connectPrinter(String macID) =>
-      ZebraPrintPluginPlatform.instance.connectPrinter(macID);
+  Future<bool?> connectPrinter(String macID, String printBytes) =>
+      ZebraPrintPluginPlatform.instance.connectPrinter(macID, printBytes);
 
   Future<bool> hasAllBluetoothPermission() =>
       BluetoothPermissionManager.checkAndRequestPermissions();
@@ -23,6 +22,17 @@ class ZebraPrintPlugin {
       ZebraPrintPluginPlatform.instance.isBluetoothOn();
   Future<String?> getConnectedDevice() =>
       ZebraPrintPluginPlatform.instance.getConnectedDevice();
-  Future<dynamic> getAllPairedZQDevices() =>
-      ZebraPrintPluginPlatform.instance.getAllPairedZQDevices();
+  Future<List<dynamic>?> getAllPairedZQDevices() async {
+    final devices =
+        await ZebraPrintPluginPlatform.instance.getAllPairedZQDevices();
+    return devices?.map((e) {
+          if (e != null) {
+            final objectMap = e as Map<Object?, Object?>;
+            return Map.from(objectMap);
+          } else {
+            return null;
+          }
+        }).toList() ??
+        [];
+  }
 }

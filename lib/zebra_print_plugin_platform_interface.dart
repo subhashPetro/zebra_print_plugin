@@ -1,9 +1,8 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-import 'zebra_print_plugin_method_channel.dart';
+import 'package:zebra_print_plugin/zebra_print_plugin_method_channel.dart';
 
 abstract class ZebraPrintPluginPlatform extends PlatformInterface {
-  /// Constructs a ZebraPrintPluginPlatform.
+  /// Constructs a ZebraPluginPlatform.
   ZebraPrintPluginPlatform() : super(token: _token);
 
   static final Object _token = Object();
@@ -30,8 +29,8 @@ abstract class ZebraPrintPluginPlatform extends PlatformInterface {
   Future<bool?> sendTestLabel();
   Future<dynamic> getConfigLabel();
   Future<bool?> disconnectPrinter();
-  Future<bool?> connectPrinter(String macID);
+  Future<bool?> connectPrinter(String macID, String printBytes);
   Future<bool> isBluetoothOn();
   Future<String?> getConnectedDevice();
-  Future<dynamic> getAllPairedZQDevices();
+  Future<List<dynamic>?> getAllPairedZQDevices();
 }
