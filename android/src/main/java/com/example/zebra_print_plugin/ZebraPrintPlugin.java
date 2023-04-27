@@ -175,30 +175,26 @@ public class ZebraPrintPlugin implements FlutterPlugin, MethodCallHandler {
             String macId = (String) arguments.get("macID");
             String printBytes = (String) arguments.get("printBytes");
             zebraRepo = new ZebraRepo();
-            new Thread(new Runnable() {
-                public void run() {
-                    Looper.prepare();
-                    doConnectionTest(macId,printBytes);
-                    Looper.loop();
-                    Looper.myLooper().quit();
-                }
-            }).start();
-            result.success("true");
+            zebraPrinter = zebraRepo.connect(macId);
+            if (zebraPrinter != null) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        Looper.prepare();
+                        zebraRepo.sendTestLabel(printBytes);
+                        Looper.loop();
+                        Looper.myLooper().quit();
+                    }
+                }).start();
+                result.success("true");
+            } else {
+                zebraRepo.disconnect();
+                result.success("false");
+            }
         } catch (Exception e) {
             Log.e(LOG_TAG, "connectPrinter: exception - " + e);
             result.success("false");
         }
     }
-
-    void doConnectionTest(String macId,String printByte) {
-        zebraPrinter = zebraRepo.connect(macId);
-        if (zebraPrinter != null) {
-            zebraRepo.sendTestLabel(printByte);
-        } else {
-            zebraRepo.disconnect();
-        }
-    }
-
 
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
