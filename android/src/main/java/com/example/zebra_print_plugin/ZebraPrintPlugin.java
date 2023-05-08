@@ -1,6 +1,7 @@
 package com.example.zebra_print_plugin;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.os.Looper;
 import android.util.Log;
@@ -97,7 +98,7 @@ public class ZebraPrintPlugin implements FlutterPlugin, MethodCallHandler {
                 Map<String, Object> deviceMap = new HashMap() {};
                 deviceMap.put("deviceName", device.getName());
                 deviceMap.put("deviceMacId", device.getAddress());
-                devices.add(deviceMap);
+                devices.add(deviceMap);   // A Bluetooth printer
             }
             Log.i(LOG_TAG, "getAllPairedZQDevices: " + devices);
             result.success(devices);
@@ -207,54 +208,59 @@ class ZebraRepo {
 
     public ZebraPrinter connect(String macAddress) {
 //        setStatus("Connecting...", Color.YELLOW);
-        connection = new BluetoothConnection(macAddress);
 
         try {
+            connection = new BluetoothConnection(macAddress);
             connection.open();
-        } catch (ConnectionException e) {
-            Log.d(LOG_TAG, "Emptyyyyyyyyyyyyyy - " + e);
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Failed to connect - " + e);
             sleep(1000);
             disconnect();
         }
 
         ZebraPrinter printer = null;
-        if (connection.isConnected()) {
-            try {
-                printer = ZebraPrinterFactory.getInstance(connection);
-                Log.d(LOG_TAG, "Determining Printer Languag");
-                String pl = SGD.GET("device.languages", connection);
-                Log.d(LOG_TAG, "Printer Language" + pl);
-            } catch (ConnectionException | ZebraPrinterLanguageUnknownException e) {
-                Log.d(LOG_TAG, "UnknownPrinter Language");
-                printer = null;
-                sleep(1000);
-                disconnect();
+
+        try{
+            if (connection.isConnected()) {
+                try {
+                    printer = ZebraPrinterFactory.getInstance(connection);
+                    Log.e(LOG_TAG, "Determining Printer Languag");
+                    String pl = SGD.GET("device.languages", connection);
+                    Log.e(LOG_TAG, "Printer Language" + pl);
+                } catch (ConnectionException | ZebraPrinterLanguageUnknownException e) {
+                    Log.e(LOG_TAG, "UnknownPrinter Language");
+                    printer = null;
+                    sleep(1000);
+                    disconnect();
+                }
+                zebraPrinter = printer;
+            }else{
+                return null;
             }
+        }catch (Exception e){
+            Log.e(LOG_TAG, "connect: Device is not a type of zebra "+e);
         }
-        zebraPrinter = printer;
+
         return printer;
     }
 
     public void disconnect() {
-        String friendlyName;
         try {
-
             if (connection != null) {
                 connection.close();
             }
-
         } catch (ConnectionException e) {
-
+            Log.e(LOG_TAG, "disconnect: "+e);
         }
     }
 
     void sendTestLabel(String printByte) {
         try {
             ZebraPrinterLinkOs linkOsPrinter = ZebraPrinterFactory.createLinkOsPrinter(zebraPrinter);
-            Log.d(LOG_TAG, "Emptyyyyyyyyyyyyyy" + linkOsPrinter);
+            Log.d(LOG_TAG, "Link os printer" + linkOsPrinter);
 
             PrinterStatus printerStatus = (linkOsPrinter != null) ? linkOsPrinter.getCurrentStatus() : zebraPrinter.getCurrentStatus();
-            Log.d(LOG_TAG, "Emptyyyyyyyyyyyyyy" + printerStatus);
+            Log.d(LOG_TAG, "printer status" + printerStatus);
 
             if (printerStatus.isReadyToPrint) {
                 byte[] configLabel = getConfigLabel(printByte);

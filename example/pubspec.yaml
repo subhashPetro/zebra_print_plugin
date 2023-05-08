@@ -16,6 +16,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   zebra_print_plugin:
     path: ../
+  permission_handler:
+
 
 dev_dependencies:
   flutter_test:
