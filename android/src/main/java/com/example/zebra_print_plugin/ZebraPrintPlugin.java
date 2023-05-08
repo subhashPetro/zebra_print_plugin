@@ -94,14 +94,10 @@ public class ZebraPrintPlugin implements FlutterPlugin, MethodCallHandler {
             Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
             List<Map<String, Object>> devices = new ArrayList<>();
             for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                if (deviceName != null && deviceName.startsWith("ZQ")) {
-                    Map<String, Object> deviceMap = new HashMap() {
-                    };
-                    deviceMap.put("deviceName", device.getName());
-                    deviceMap.put("deviceMacId", device.getAddress());
-                    devices.add(deviceMap);
-                }
+                Map<String, Object> deviceMap = new HashMap() {};
+                deviceMap.put("deviceName", device.getName());
+                deviceMap.put("deviceMacId", device.getAddress());
+                devices.add(deviceMap);
             }
             Log.i(LOG_TAG, "getAllPairedZQDevices: " + devices);
             result.success(devices);
