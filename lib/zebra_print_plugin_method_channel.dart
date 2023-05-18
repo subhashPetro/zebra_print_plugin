@@ -65,6 +65,7 @@ class MethodChannelZebraPrintPlugin extends ZebraPrintPluginPlatform {
   Future<List<dynamic>?> getAllPairedZQDevices() async {
     final devices =
         await methodChannel.invokeMethod<dynamic>(getAllPairedZQDevicesChannel);
+    print(devices);
     return devices;
   }
 }

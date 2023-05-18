@@ -14,8 +14,10 @@ A new Flutter project.
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
+  s.public_header_files = 'Classes/Objective-C/MFiBtPrinterConnection.h','Classes/Objective-C/ZebraPrinterConnection.h','Classes/Objective-C/ZebraPrinter.h','Classes/Objective-C/ZebraPrinterFactory.h','Classes/Objective-C/TcpPrinterConnection.h','Classes/Objective-C/PrinterStatusMessages.h','Classes/Objective-C/SGD.h'
   s.dependency 'Flutter'
   s.platform = :ios, '9.0'
+  s.public_header_files = 'include/*.h'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
