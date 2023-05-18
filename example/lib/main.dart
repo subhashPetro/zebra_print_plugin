@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:example/permission_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -33,26 +34,28 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
-    try {
-      setState(() {
-        _working = true;
-      });
-      final devices = await _zebraPlugin.getAllPairedZQDevices();
-      //final connect = await _zebraPlugin.connectPrinter("AC:3F:A4:0E:89:95");
-      //final testLabel = await _zebraPlugin.sendTestLabel();
-      setState(() {
-        if (devices != null) {
-          _devices = devices;
-        } else {
-          _devices = [];
-        }
-      });
-      log("config label -  and  connect - $devices");
-      setState(() {
-        _working = false;
-      });
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+    if (await BluetoothPermissionManager.checkAndRequestPermissions()) {
+      try {
+        setState(() {
+          _working = true;
+        });
+        final devices = await _zebraPlugin.getAllPairedZQDevices();
+        //final connect = await _zebraPlugin.connectPrinter("AC:3F:A4:0E:89:95");
+        //final testLabel = await _zebraPlugin.sendTestLabel();
+        setState(() {
+          if (devices != null) {
+            _devices = devices;
+          } else {
+            _devices = [];
+          }
+        });
+        log("config label -  and  connect - $devices");
+        setState(() {
+          _working = false;
+        });
+      } on PlatformException {
+        platformVersion = 'Failed to get platform version.';
+      }
     }
   }
 
