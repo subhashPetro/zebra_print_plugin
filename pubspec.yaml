@@ -4,7 +4,6 @@ version: 0.0.1
 homepage: https://github.com/subhashPetro/zebra_print_plugin.git
 authors:
   - Subhash Chandra Shukla
-  - Ayushi Gupta
 
 environment:
   sdk: '>=2.19.4 <3.0.0'

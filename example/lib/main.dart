@@ -133,7 +133,7 @@ class _MyAppState extends State<MyApp> {
             return CupertinoAlertDialog(
               title: const Text("Switch on Bluetooth"),
               content:
-                  const Text("Switch on the bluetooth to scan RFID Devices"),
+                  const Text("Switch on the bluetooth to scan Zebra Printing Devices"),
               actions: [
                 CupertinoButton(
                   child: const Text("Ok"),
